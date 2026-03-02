@@ -1,20 +1,39 @@
-import { Body, Controller, Get, Post, Query } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Query } from "@nestjs/common";
 import { MissionService } from "./mission.service";
-import * as missionInterface from "./mission.interface";
+import { IMission } from "./mission.interface";
 
 @Controller("missions")
 export class MissionController {
   constructor(private readonly missionService: MissionService) {}
+
+  @Get()
+  getMissions() {
+    return this.missionService.findAll();
+  }
+
   @Get("summary")
   getSummary() {
     return this.missionService.getSummary();
   }
+
   @Get(":id")
-  getMissionById(id: string, @Query("clearance") clearance?: string) {
+  getMissionById(
+    @Param("id") id: string,
+    @Query("clearance") clearance?: string,
+  ) {
     return this.missionService.findOne(id, clearance);
   }
+
   @Post()
-  createMission(@Body() mission: missionInterface.IMission) {
+  createMission(
+    @Body()
+    mission: {
+      codename: string;
+      targetName: string;
+      riskLevel: string;
+      startDate: string;
+    },
+  ) {
     return this.missionService.create(mission);
   }
 }
