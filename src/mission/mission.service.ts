@@ -1,4 +1,7 @@
+/* eslint-disable */
 import { Injectable } from "@nestjs/common";
+import { IMission } from "./mission.interface";
+import { readFileSync } from "fs";
 
 @Injectable()
 export class MissionService {
@@ -24,5 +27,11 @@ export class MissionService {
       }
     }
     return res;
+  }
+
+  findAll() {
+    const data = readFileSync("missions.json", "utf-8");
+    const missions: IMission[] = JSON.parse(data);
+    return missions;
   }
 }
