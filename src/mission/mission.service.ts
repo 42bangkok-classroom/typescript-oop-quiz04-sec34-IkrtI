@@ -37,7 +37,7 @@ export class MissionService {
       if (d.startDate && d.endDate) {
         const start = new Date(d.startDate);
         const end = new Date(d.endDate);
-        durationDays = Math.ceil((end.getTime() - start.getTime()) /86400000);
+        durationDays = (end.getTime() - start.getTime())/86400000;
       }
       return {
         ...d,
