@@ -3,8 +3,8 @@ import { CreateMissionDto } from './dto/create-mission.dto';
 import { UpdateMissionDto } from './dto/update-mission.dto';
 
 @Injectable()
-export class MissionsService {
-  private readonly missions = [
+export class missionService {
+  private readonly mission = [
   { id: 1, codename: 'OPERATION_STORM', status: 'ACTIVE' },
   { id: 2, codename: 'SILENT_SNAKE', status: 'COMPLETED' },
   { id: 3, codename: 'RED_DAWN', status: 'FAILED' },
@@ -18,7 +18,7 @@ export class MissionsService {
   }
 
   findAll() {
-    return `This action returns all missions`;
+    return `This action returns all mission`;
   }
 
   findOne(id: number) {
@@ -39,9 +39,9 @@ export class MissionsService {
   "COMPLETED": 0,
   "FAILED": 0
 }
-    for(let i = 0; i<this.missions.length;i++)
+    for(let i = 0; i<this.mission.length;i++)
     {
-      let data = this.missions[i]
+      let data = this.mission[i]
       res[data.status] = res[data.status] + 1
     }
     return res
