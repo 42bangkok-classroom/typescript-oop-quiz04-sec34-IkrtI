@@ -29,7 +29,7 @@ export class MissionService {
   }
 
   create(mission: IMission) {
-    const data = readFileSync("./src/mission/missions.json", "utf-8");
+    const data = readFileSync("data/missions.json ", "utf-8");
     const missions = JSON.parse(data) as IMission[];
     missions.push({
       ...mission,
@@ -41,7 +41,7 @@ export class MissionService {
   }
 
   findAll() {
-    const data = readFileSync("./src/mission/missions.json", "utf-8");
+    const data = readFileSync("data/missions.json ", "utf-8");
     const missions = JSON.parse(data) as IMission[];
     missions.map((d) => {
       let durationDays = -1;
@@ -59,7 +59,7 @@ export class MissionService {
   }
 
   findOne(id: string, clearance: string = "STANDARD") {
-    const data = readFileSync("./src/mission/missions.json", "utf-8");
+    const data = readFileSync("data/missions.json ", "utf-8");
     const missions = JSON.parse(data) as IMission[];
     const mission = missions.find((m) => m.id === id)!;
     if (!mission) {
