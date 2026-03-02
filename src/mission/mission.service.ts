@@ -3,7 +3,7 @@ import { CreateMissionDto } from "./dto/create-mission.dto";
 import { UpdateMissionDto } from "./dto/update-mission.dto";
 
 @Injectable()
-export class missionService {
+export class MissionService {
   private readonly mission = [
     { id: 1, codename: "OPERATION_STORM", status: "ACTIVE" },
     { id: 2, codename: "SILENT_SNAKE", status: "COMPLETED" },
