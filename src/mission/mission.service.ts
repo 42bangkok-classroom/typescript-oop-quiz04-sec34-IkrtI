@@ -56,6 +56,27 @@ export class MissionService {
     }));
   }
 
+  remove(id: string) {
+    const data = fs.readFileSync("data/missions.json", "utf8");
+    const missions = JSON.parse(data) as IMission[];
+    const missionIndex = missions.findIndex((mission) => mission.id === id);
+
+    if (missionIndex === -1) {
+      return {
+        statusCode: 404,
+        message: "Not Found",
+        error: "Not Found",
+      };
+    }
+
+    missions.splice(missionIndex, 1);
+    fs.writeFileSync("data/missions.json", JSON.stringify(missions, null, 2));
+
+    return {
+      message: `Mission ID ${id} has been successfully deleted.`,
+    };
+  }
+
   findOne(id: string, clearance: string = "STANDARD") {
     const data = fs.readFileSync("data/missions.json", "utf8");
     const missions = JSON.parse(data) as IMission[];
