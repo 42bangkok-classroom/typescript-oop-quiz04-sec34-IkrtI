@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { IMission } from "./mission.interface";
-import { readFileSync } from "fs";
+import * as fs from "fs";
 
 @Injectable()
 export class MissionService {
@@ -29,7 +29,7 @@ export class MissionService {
   }
 
   create(mission: IMission) {
-    const data = readFileSync("data/missions.json", "utf-8");
+    const data = fs.readFileSync("data/missions.json", "utf8");
     const missions = JSON.parse(data) as IMission[];
     missions.push({
       ...mission,
@@ -41,19 +41,20 @@ export class MissionService {
   }
 
   findAll() {
-    const data = readFileSync("data/missions.json", "utf-8");
+    const data = fs.readFileSync("data/missions.json", "utf8");
     const missions = JSON.parse(data) as IMission[];
     return missions.map((mission) => ({
       ...mission,
       durationDays: mission.endDate
         ? (new Date(mission.endDate).getTime() -
-            new Date(mission.startDate).getTime()) / 86400000
+            new Date(mission.startDate).getTime()) /
+          86400000
         : -1,
     }));
   }
 
   findOne(id: string, clearance: string = "STANDARD") {
-    const data = readFileSync("data/missions.json", "utf-8");
+    const data = fs.readFileSync("data/missions.json", "utf8");
     const missions = JSON.parse(data) as IMission[];
     const mission = missions.find((m) => m.id === id)!;
     if (!mission) {
