@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { Body, Controller, Get, Param, Post, Query } from "@nestjs/common";
 import { MissionService } from "./mission.service";
 
