@@ -1,9 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { MissionService } from './mission.service';
-import { CreateMissionDto } from './dto/create-mission.dto';
-import { UpdateMissionDto } from './dto/update-mission.dto';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from "@nestjs/common";
+import { MissionService } from "./mission.service";
+import { CreateMissionDto } from "./dto/create-mission.dto";
+import { UpdateMissionDto } from "./dto/update-mission.dto";
 
-@Controller('mission')
+@Controller("mission")
 export class MissionController {
   constructor(private readonly missionService: MissionService) {}
 
@@ -17,18 +25,18 @@ export class MissionController {
     return this.missionService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
+  @Get(":id")
+  findOne(@Param("id") id: string) {
     return this.missionService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMissionDto: UpdateMissionDto) {
+  @Patch(":id")
+  update(@Param("id") id: string, @Body() updateMissionDto: UpdateMissionDto) {
     return this.missionService.update(+id, updateMissionDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
+  @Delete(":id")
+  remove(@Param("id") id: string) {
     return this.missionService.remove(+id);
   }
 }
