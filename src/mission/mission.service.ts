@@ -32,6 +32,18 @@ export class MissionService {
   findAll() {
     const data = readFileSync("missions.json", "utf-8");
     const missions: IMission[] = JSON.parse(data);
+    missions.map(d=>{
+      let durationDays = -1
+      if (d.startDate && d.endDate) {
+        const start = new Date(d.startDate);
+        const end = new Date(d.endDate);
+        durationDays = Math.ceil((end.getTime() - start.getTime()) /86400000);
+      }
+      return {
+        ...d,
+        durationDays
+      }
+    })
     return missions;
   }
 }
