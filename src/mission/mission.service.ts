@@ -46,9 +46,9 @@ export class MissionService {
     missions.map((d) => {
       let durationDays = -1;
       if (d.startDate && d.endDate) {
-        const start = new Date(d.startDate);
-        const end = new Date(d.endDate);
-        durationDays = (end.getTime() - start.getTime()) / 86400000;
+        durationDays =
+          (new Date(d.endDate).getTime() - new Date(d.startDate).getTime()) /
+          (1000 * 60 * 60 * 24);
       }
       return {
         ...d,
