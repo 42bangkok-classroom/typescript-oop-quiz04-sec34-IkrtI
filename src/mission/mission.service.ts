@@ -29,6 +29,17 @@ export class MissionService {
     return res;
   }
 
+  create(mission: IMission) {
+    const data = readFileSync("missions.json", "utf-8");
+    const missions: IMission[] = JSON.parse(data);
+    missions.push({...mission,
+      id: (missions.length + 1).toString(),
+      status: "ACTIVE",
+      endDate: null,
+    });
+    return mission;
+  }
+
   findAll() {
     const data = readFileSync("missions.json", "utf-8");
     const missions: IMission[] = JSON.parse(data);
