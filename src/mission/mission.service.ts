@@ -58,7 +58,11 @@ export class MissionService {
     const missions = JSON.parse(data) as IMission[];
     const mission = missions.find((m) => m.id === id)!;
     if (!mission) {
-      return null;
+      return {
+        statusCode: 404,
+        message: "Not Found",
+        error: "Not Found",
+      };
     } else if (mission.riskLevel == "HIGH") {
       if (clearance == "SECRET") {
         return {
