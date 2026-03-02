@@ -46,4 +46,25 @@ export class MissionService {
     })
     return missions;
   }
+
+  findOne(id: string, clearance: string = "STANDARD") {
+    const data = readFileSync("missions.json", "utf-8");
+    const missions: IMission[] = JSON.parse(data);
+    const mission = missions.find((m) => m.id === id)!;
+    if (!mission) {
+      return null;
+    } else if (mission.riskLevel == "HIGH") {
+    if (clearance == "SECRET") {
+      return {
+        ...mission,
+        targetName: "***REDACTED***",
+      };
+    } else if (clearance == "TOP_SECRET") {
+      return mission;
+    } else {
+      return null;
+    }
+  }
+    return mission;
+  }
 }
