@@ -28,19 +28,25 @@ export class MissionService {
     return res;
   }
 
-  create(mission: IMission) {
+  create(
+    mission: Omit<IMission, "id" | "status" | "endDate"> &
+      Partial<Pick<IMission, "id" | "status" | "endDate">>,
+  ) {
     const data = fs.readFileSync("data/missions.json", "utf8");
     const missions = JSON.parse(data) as IMission[];
     const latestId =
       missions.length > 0 ? Number(missions[missions.length - 1].id) : 0;
-    missions.push({
+    const newMission: IMission = {
       ...mission,
       id: String(latestId + 1),
       status: "ACTIVE",
       endDate: null,
-    });
+    };
+
+    missions.push(newMission);
     fs.writeFileSync("data/missions.json", JSON.stringify(missions, null, 2));
-    return missions;
+
+    return newMission;
   }
 
   findAll() {
@@ -62,11 +68,7 @@ export class MissionService {
     const missionIndex = missions.findIndex((mission) => mission.id === id);
 
     if (missionIndex === -1) {
-      return {
-        statusCode: 404,
-        message: "Not Found",
-        error: "Not Found",
-      };
+      throw new NotFoundException("Not Found");
     }
 
     missions.splice(missionIndex, 1);
