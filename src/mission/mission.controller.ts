@@ -23,6 +23,11 @@ export class MissionController {
     return this.missionService.findOne(id, clearance);
   }
 
+  @Delete(":id")
+  deleteMission(@Param("id") id: string) {
+    return this.missionService.remove(id);
+  }
+
   @Post()
   createMission(
     @Body()
