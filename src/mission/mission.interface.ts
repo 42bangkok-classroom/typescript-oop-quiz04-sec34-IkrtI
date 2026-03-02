@@ -7,4 +7,3 @@ export interface IMission {
   startDate: string;
   endDate: string;
 }
-[];
