@@ -31,13 +31,16 @@ export class MissionService {
   create(mission: IMission) {
     const data = fs.readFileSync("data/missions.json", "utf8");
     const missions = JSON.parse(data) as IMission[];
+    const latestId =
+      missions.length > 0 ? Number(missions[missions.length - 1].id) : 0;
     missions.push({
       ...mission,
-      id: (missions.length + 1).toString(),
+      id: String(latestId + 1),
       status: "ACTIVE",
       endDate: null,
     });
-    return mission;
+    fs.writeFileSync("data/missions.json", JSON.stringify(missions, null, 2));
+    return missions;
   }
 
   findAll() {
