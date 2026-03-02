@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { Injectable } from "@nestjs/common";
 import { IMission } from "./mission.interface";
 import { readFileSync } from "fs";
@@ -31,8 +30,9 @@ export class MissionService {
 
   create(mission: IMission) {
     const data = readFileSync("./src/mission/missions.json", "utf-8");
-    const missions: IMission[] = JSON.parse(data);
-    missions.push({...mission,
+    const missions = JSON.parse(data) as IMission[];
+    missions.push({
+      ...mission,
       id: (missions.length + 1).toString(),
       status: "ACTIVE",
       endDate: null,
@@ -42,40 +42,40 @@ export class MissionService {
 
   findAll() {
     const data = readFileSync("./src/mission/missions.json", "utf-8");
-    const missions: IMission[] = JSON.parse(data);
-    missions.map(d=>{
-      let durationDays = -1
+    const missions = JSON.parse(data) as IMission[];
+    missions.map((d) => {
+      let durationDays = -1;
       if (d.startDate && d.endDate) {
         const start = new Date(d.startDate);
         const end = new Date(d.endDate);
-        durationDays = (end.getTime() - start.getTime())/86400000;
+        durationDays = (end.getTime() - start.getTime()) / 86400000;
       }
       return {
         ...d,
-        durationDays
-      }
-    })
+        durationDays,
+      };
+    });
     return missions;
   }
 
   findOne(id: string, clearance: string = "STANDARD") {
     const data = readFileSync("./src/mission/missions.json", "utf-8");
-    const missions: IMission[] = JSON.parse(data);
+    const missions = JSON.parse(data) as IMission[];
     const mission = missions.find((m) => m.id === id)!;
     if (!mission) {
       return null;
     } else if (mission.riskLevel == "HIGH") {
-    if (clearance == "SECRET") {
-      return {
-        ...mission,
-        targetName: "***REDACTED***",
-      };
-    } else if (clearance == "TOP_SECRET") {
-      return mission;
-    } else {
-      return null;
+      if (clearance == "SECRET") {
+        return {
+          ...mission,
+          targetName: "***REDACTED***",
+        };
+      } else if (clearance == "TOP_SECRET") {
+        return mission;
+      } else {
+        return null;
+      }
     }
-  }
     return mission;
   }
 }

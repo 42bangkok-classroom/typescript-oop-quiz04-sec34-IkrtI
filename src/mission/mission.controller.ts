@@ -31,6 +31,9 @@ export class MissionController {
       targetName: string;
       riskLevel: string;
       startDate: string;
+      id: string;
+      status: string;
+      endDate: string;
     },
   ) {
     return this.missionService.create(mission);
