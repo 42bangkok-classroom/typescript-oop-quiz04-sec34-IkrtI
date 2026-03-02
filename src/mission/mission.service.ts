@@ -43,19 +43,13 @@ export class MissionService {
   findAll() {
     const data = readFileSync("data/missions.json", "utf-8");
     const missions = JSON.parse(data) as IMission[];
-    missions.map((d) => {
-      let durationDays = -1;
-      if (d.startDate && d.endDate) {
-        durationDays =
-          (new Date(d.endDate).getTime() - new Date(d.startDate).getTime()) /
-          (1000 * 60 * 60 * 24);
-      }
-      return {
-        ...d,
-        durationDays,
-      };
-    });
-    return missions;
+    return missions.map((mission) => ({
+      ...mission,
+      durationDays: mission.endDate
+        ? (new Date(mission.endDate).getTime() -
+            new Date(mission.startDate).getTime()) / 86400000
+        : -1,
+    }));
   }
 
   findOne(id: string, clearance: string = "STANDARD") {
